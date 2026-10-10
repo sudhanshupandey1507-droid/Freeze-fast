@@ -69,3 +69,27 @@ def assess(tx: Transaction):
         "money_frozen": False,
         "mode": "SIMULATION_ONLY"
     }
+from pydantic import BaseModel
+
+class Transaction(BaseModel):
+    amount: float
+    transactions_last_hour: int
+    failed_attempts: int
+
+@app.post("/analyze")
+def analyze_transaction(transaction: Transaction):
+    risk_score = 0
+
+    if transaction.amount >= 10000:
+        risk_score += 40
+
+    if transaction.transactions_last_hour >= 5:
+        risk_score += 30
+
+    if transaction.failed_attempts >= 3:
+        risk_score += 30
+
+    return {
+        "risk_score": risk_score,
+        "status": "Suspicious" if risk_score >= 50 else "Normal"
+    }
