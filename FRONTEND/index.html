@@ -139,5 +139,37 @@
                 ". No real system has been frozen.";
         }
     </script>
+<script>
+const FREEZEFAST_API = "https://freeze-fast-1.onrender.com";
+
+async function analyzeTransaction() {
+  try {
+    const response = await fetch(
+      `${FREEZEFAST_API}/analyze`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          amount: 15000,
+          transactions_last_hour: 6,
+          failed_attempts: 3
+        })
+      }
+    );
+
+    const result = await response.json();
+    console.log("FreezeFast result:", result);
+    alert(
+      "Risk Score: " + result.risk_score +
+      "\nStatus: " + result.status
+    );
+  } catch (error) {
+    alert("Could not connect to FreezeFast backend.");
+    console.error(error);
+  }
+}
+</script>
 </body>
 </html>
