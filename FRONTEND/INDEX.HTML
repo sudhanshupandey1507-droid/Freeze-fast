@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreezeFast | Emergency Response</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0b1220;
+            color: #f8fafc;
+        }
+
+        header {
+            padding: 22px 8%;
+            background: #111c30;
+            border-bottom: 1px solid #263650;
+        }
+
+        header h2 {
+            margin: 0;
+            color: #38bdf8;
+        }
+
+        main {
+            max-width: 850px;
+            margin: 65px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: #152238;
+            padding: 32px;
+            border: 1px solid #30415d;
+            border-radius: 18px;
+        }
+
+        .tag {
+            color: #38bdf8;
+            font-size: 13px;
+            letter-spacing: 2px;
+        }
+
+        h1 {
+            font-size: 38px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            color: #bdc9dc;
+            line-height: 1.7;
+        }
+
+        label {
+            display: block;
+            margin: 24px 0 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            border: 1px solid #425572;
+            background: #0b1220;
+            color: white;
+        }
+
+        button {
+            margin-top: 16px;
+            padding: 13px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #38bdf8;
+            color: #07111f;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background: #0b1220;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #8fa1bb;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>⚡ FreezeFast</h2>
+    </header>
+
+    <main>
+        <section class="card">
+            <span class="tag">RAPID RESPONSE PLATFORM</span>
+            <h1>Act Fast. Limit the Damage.</h1>
+            <p>
+                FreezeFast is a prototype interface for initiating
+                rapid response when a critical incident is detected.
+            </p>
+
+            <label for="incident">Incident ID</label>
+            <input id="incident" placeholder="Enter a demo incident ID">
+
+            <button onclick="startDemo()">Initiate Demo Response</button>
+
+            <div id="result" role="status">
+                Status: Waiting for a demo incident.
+            </div>
+        </section>
+    </main>
+
+    <footer>FreezeFast · Prototype v1.0</footer>
+
+    <script>
+        function startDemo() {
+            const incident =
+                document.getElementById("incident").value.trim();
+            const result = document.getElementById("result");
+
+            if (!incident) {
+                result.textContent =
+                    "Please enter a demo incident ID.";
+                return;
+            }
+
+            result.textContent =
+                "Demo request prepared for incident: " + incident +
+                ". No real system has been frozen.";
+        }
+    </script>
+</body>
+</html>
