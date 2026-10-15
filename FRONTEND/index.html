@@ -123,51 +123,48 @@
     <footer>FreezeFast · Prototype v1.0</footer>
 
     <script>
-        function startDemo() {
-            const incident =
-                document.getElementById("incident").value.trim();
-            const result = document.getElementById("result");
+        async function startDemo() {
+    const incident = document.getElementById("incident").value.trim();
+    const result = document.getElementById("result");
 
-            if (!incident) {
-                result.textContent =
-                    "Please enter a demo incident ID.";
-                return;
-            }
+    if (!incident) {
+        result.textContent = "Please enter a demo incident ID.";
+        return;
+    }
 
-            result.textContent =
-                "Demo request prepared for incident: " + incident +
-                ". No real system has been frozen.";
+    result.textContent = "Sending demo transaction to FreezeFast backend...";
+
+    try {
+        const response = await fetch(`${FREEZEFAST_API}/analyze`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                amount: 15000,
+                transactions_last_hour: 6,
+                failed_attempts: 3
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error("Backend returned status " + response.status);
         }
-    </script>
-<script>
-const FREEZEFAST_API = "https://freeze-fast.onrender.com";
 
-async function analyzeTransaction() {
-  try {
-    const response = await fetch(
-      `${FREEZEFAST_API}/analyze`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          amount: 15000,
-          transactions_last_hour: 6,
-          failed_attempts: 3
-        })
-      }
-    );
+        const data = await response.json();
 
-    const result = await response.json();
-    console.log("FreezeFast result:", result);
-    alert(
-      "Risk Score: " + result.risk_score +
-      "\nStatus: " + result.status
-    );
-  } catch (error) {
-    alert("Could not connect to FreezeFast backend.");
-    console.error(error);
+        result.textContent =
+            "Incident ID: " + incident +
+            "\nBackend analysis completed." +
+            "\nRisk score: " + (data.risk_score ?? "Not provided") +
+            "\nStatus: " + (data.status ?? "Not provided") +
+            "\nDemo only: No real account has been frozen.";
+
+    } catch (error) {
+        result.textContent =
+            "Could not connect to the backend. Please try again. Details: " +
+            error.message;
+    }
   }
 }
 </script>
